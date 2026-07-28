@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  core-linux:
+    runs-on: ubuntu-latest
+    container: swift:6.1
+    steps:
+      - uses: actions/checkout@v4
+      - name: swift test
+        working-directory: QuickBitesCore
+        run: swift test
+
+  core-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: swift test
+        working-directory: QuickBitesCore
+        run: swift test
+
+  app:
+    needs: [core-linux, core-macos]
+    runs-on: macos-latest
+    if: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen
+      - name: Build
+        run: |
+          xcodebuild -scheme QuickBites \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            build

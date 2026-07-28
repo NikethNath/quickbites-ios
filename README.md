@@ -67,7 +67,7 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 ## Roadmap
 
 - [x] Spec and architecture (this README)
-- [ ] `QuickBitesCore` SPM package skeleton; CI running `swift test` on ubuntu + macos
+- [x] `QuickBitesCore` SPM package skeleton; CI running `swift test` on ubuntu + macos
 - [ ] DTOs + `MealDBClient` with injected HTTP transport, unit tests
 - [ ] Actor-isolated `CacheStore` + offline-first repositories, unit tests
 - [ ] XcodeGen project + SwiftUI app shell building on macOS CI
