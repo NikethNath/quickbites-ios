@@ -16,3 +16,9 @@ public struct CartItem: Codable, Equatable, Sendable, Identifiable {
         self.qty = qty
     }
 }
+
+public extension Array where Element == CartItem {
+    var totalInr: Int {
+        reduce(0) { $0 + $1.priceInr * $1.qty }
+    }
+}

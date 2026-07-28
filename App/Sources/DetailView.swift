@@ -115,7 +115,10 @@ struct DetailView: View {
     private func cartControl(for meal: MealDetail, viewModel: DetailViewModel) -> some View {
         if viewModel.qtyInCart == 0 {
             Button {
-                Task { await viewModel.addToCart() }
+                Task {
+                    await viewModel.addToCart()
+                    await environment.refreshCartCount()
+                }
             } label: {
                 Label("Add to cart", systemImage: "cart.badge.plus")
                     .frame(maxWidth: .infinity)
@@ -130,7 +133,12 @@ struct DetailView: View {
                     "Quantity",
                     value: Binding(
                         get: { viewModel.qtyInCart },
-                        set: { newValue in Task { await viewModel.setQty(newValue) } }
+                        set: { newValue in
+                            Task {
+                                await viewModel.setQty(newValue)
+                                await environment.refreshCartCount()
+                            }
+                        }
                     ),
                     in: 0...20
                 )

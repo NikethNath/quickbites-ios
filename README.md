@@ -73,7 +73,7 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 - [x] XcodeGen project + SwiftUI app shell building on macOS CI
 - [x] Home + Browse + Search
 - [x] Dish detail
-- [ ] Cart, mock checkout, order history
+- [x] Cart, mock checkout, order history
 - [ ] Polish: dark mode, empty/error states, accessibility labels
 - [ ] Simulator screenshots in CI + final README
 

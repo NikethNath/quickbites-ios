@@ -36,8 +36,7 @@ public struct OrderRepository: Sendable {
         guard !items.isEmpty else { return nil }
 
         let lines = items.map { OrderLine(mealId: $0.mealId, name: $0.name, priceInr: $0.priceInr, qty: $0.qty) }
-        let total = lines.reduce(0) { $0 + $1.priceInr * $1.qty }
-        let order = Order(id: UUID(), placedAt: Date(), total: total, lines: lines)
+        let order = Order(id: UUID(), placedAt: Date(), total: items.totalInr, lines: lines)
 
         var history = await orders()
         history.insert(order, at: 0)

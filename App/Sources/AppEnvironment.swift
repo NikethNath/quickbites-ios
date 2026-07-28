@@ -5,6 +5,7 @@ import QuickBitesCore
 final class AppEnvironment {
     let catalogRepository: CatalogRepository
     let orderRepository: OrderRepository
+    private(set) var cartCount = 0
 
     init() {
         let cacheDirectory = FileManager.default
@@ -16,5 +17,9 @@ final class AppEnvironment {
             cache: cache
         )
         orderRepository = OrderRepository(cache: cache)
+    }
+
+    func refreshCartCount() async {
+        cartCount = await orderRepository.cart().reduce(0) { $0 + $1.qty }
     }
 }

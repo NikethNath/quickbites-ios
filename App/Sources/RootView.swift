@@ -1,27 +1,40 @@
 import SwiftUI
 
+enum Tab: Hashable {
+    case home, cart, orders
+}
+
 struct RootView: View {
+    @Environment(AppEnvironment.self) private var environment
     @State private var homePath = NavigationPath()
+    @State private var selectedTab: Tab = .home
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             NavigationStack(path: $homePath) {
                 HomeView(path: $homePath)
                     .navigationDestination(for: Route.self, destination: routeDestination)
             }
             .tabItem { Label("Home", systemImage: "house") }
+            .tag(Tab.home)
 
             NavigationStack {
-                CartView()
+                CartView(selectedTab: $selectedTab)
                     .navigationDestination(for: Route.self, destination: routeDestination)
             }
             .tabItem { Label("Cart", systemImage: "cart") }
+            .tag(Tab.cart)
+            .badge(environment.cartCount)
 
             NavigationStack {
                 OrdersView()
                     .navigationDestination(for: Route.self, destination: routeDestination)
             }
             .tabItem { Label("Orders", systemImage: "list.bullet.rectangle") }
+            .tag(Tab.orders)
+        }
+        .task {
+            await environment.refreshCartCount()
         }
     }
 
