@@ -28,7 +28,6 @@ jobs:
   app:
     needs: [core-linux, core-macos]
     runs-on: macos-latest
-    if: false
     steps:
       - uses: actions/checkout@v4
       - name: Install XcodeGen
@@ -38,5 +37,5 @@ jobs:
       - name: Build
         run: |
           xcodebuild -scheme QuickBites \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
             build
