@@ -28,10 +28,10 @@ struct RootView: View {
     @ViewBuilder
     private func routeDestination(for route: Route) -> some View {
         switch route {
-        case .browseCategory(_, let name):
-            BrowseView(title: name)
+        case .browseCategory(let id, let name):
+            BrowseView(title: name, source: .category(id: id, name: name))
         case .browseSearch(let query):
-            BrowseView(title: "Search results for \"\(query)\"")
+            BrowseView(title: "Search results for \"\(query)\"", source: .search(query: query))
         case .detail(let mealId):
             DetailView(mealId: mealId)
         }

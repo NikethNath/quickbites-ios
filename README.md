@@ -71,8 +71,8 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 - [x] DTOs + `MealDBClient` with injected HTTP transport, unit tests
 - [x] Actor-isolated `CacheStore` + offline-first repositories, unit tests
 - [x] XcodeGen project + SwiftUI app shell building on macOS CI
-- [ ] Home + Browse + Search
-- [ ] Dish detail
+- [x] Home + Browse + Search
+- [x] Dish detail
 - [ ] Cart, mock checkout, order history
 - [ ] Polish: dark mode, empty/error states, accessibility labels
 - [ ] Simulator screenshots in CI + final README
