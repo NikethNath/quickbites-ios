@@ -11,4 +11,8 @@ struct FakeTransport: HTTPTransport {
     static func json(_ string: String) -> FakeTransport {
         FakeTransport { _ in Data(string.utf8) }
     }
+
+    static func failing(_ error: Error = MealDBError.badResponse) -> FakeTransport {
+        FakeTransport { _ in throw error }
+    }
 }
