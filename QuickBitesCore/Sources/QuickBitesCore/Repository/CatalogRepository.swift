@@ -12,9 +12,9 @@ public struct CatalogRepository: Sendable {
         self.cache = cache
     }
 
-    public func categories() async -> (cached: [Category]?, refreshed: Result<[Category], Error>) {
+    public func categories() async -> (cached: [MealCategory]?, refreshed: Result<[MealCategory], Error>) {
         let key = Keys.categories
-        let cached: [Category]? = await cache.load(key)
+        let cached: [MealCategory]? = await cache.load(key)
         do {
             let fresh = try await client.categories()
             await cache.save(fresh, key: key)

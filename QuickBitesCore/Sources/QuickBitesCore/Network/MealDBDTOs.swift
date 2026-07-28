@@ -9,8 +9,8 @@ struct CategoryDTO: Decodable {
     let strCategory: String
     let strCategoryThumb: String?
 
-    func toDomain() -> Category {
-        Category(id: idCategory, name: strCategory, thumbURL: strCategoryThumb.flatMap(URL.init(string:)))
+    func toDomain() -> MealCategory {
+        MealCategory(id: idCategory, name: strCategory, thumbURL: strCategoryThumb.flatMap(URL.init(string:)))
     }
 }
 

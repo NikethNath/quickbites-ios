@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Category: Codable, Equatable, Sendable, Identifiable {
+public struct MealCategory: Codable, Equatable, Sendable, Identifiable {
     public let id: String
     public let name: String
     public let thumbURL: URL?

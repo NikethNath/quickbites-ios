@@ -20,7 +20,7 @@ public struct MealDBClient: Sendable {
         self.transport = transport
     }
 
-    public func categories() async throws -> [Category] {
+    public func categories() async throws -> [MealCategory] {
         let url = Self.baseURL.appendingPathComponent("categories.php")
         let data = try await transport.get(url)
         let dto = try JSONDecoder().decode(CategoriesResponseDTO.self, from: data)

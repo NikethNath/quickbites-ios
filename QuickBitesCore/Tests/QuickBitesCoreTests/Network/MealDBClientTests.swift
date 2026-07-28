@@ -21,7 +21,7 @@ import Foundation
         let categories = try await client.categories()
 
         #expect(categories == [
-            Category(id: "1", name: "Beef", thumbURL: URL(string: "https://www.themealdb.com/images/category/beef.png"))
+            MealCategory(id: "1", name: "Beef", thumbURL: URL(string: "https://www.themealdb.com/images/category/beef.png"))
         ])
     }
 

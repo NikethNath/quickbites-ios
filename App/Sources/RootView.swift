@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct RootView: View {
+    @State private var homePath = NavigationPath()
+
     var body: some View {
         TabView {
-            NavigationStack {
-                HomeView()
+            NavigationStack(path: $homePath) {
+                HomeView(path: $homePath)
                     .navigationDestination(for: Route.self, destination: routeDestination)
             }
             .tabItem { Label("Home", systemImage: "house") }

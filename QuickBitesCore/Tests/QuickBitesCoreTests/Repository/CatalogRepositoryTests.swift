@@ -37,7 +37,7 @@ import Foundation
     @Test func warmStartReturnsCachedThenRefreshes() async {
         let cache = makeCache()
         await cache.save(
-            [Category(id: "1", name: "Beef", thumbURL: nil)],
+            [MealCategory(id: "1", name: "Beef", thumbURL: nil)],
             key: "categories"
         )
         let repo = CatalogRepository(client: MealDBClient(transport: FakeTransport.json(Self.updatedCategoriesJSON)), cache: cache)
@@ -58,7 +58,7 @@ import Foundation
     @Test func networkFailureKeepsCachedDataAndReportsFailure() async {
         let cache = makeCache()
         await cache.save(
-            [Category(id: "1", name: "Beef", thumbURL: nil)],
+            [MealCategory(id: "1", name: "Beef", thumbURL: nil)],
             key: "categories"
         )
         let repo = CatalogRepository(client: MealDBClient(transport: FakeTransport.failing()), cache: cache)
