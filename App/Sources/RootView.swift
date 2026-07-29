@@ -35,6 +35,21 @@ struct RootView: View {
         }
         .task {
             await environment.refreshCartCount()
+            applyScreenshotLaunchArgumentsIfPresent()
+        }
+    }
+
+    /// Lets CI's screenshot job (`xcrun simctl launch` with `SIMCTL_CHILD_`-prefixed
+    /// env vars) land directly on a specific screen without UI scripting.
+    private func applyScreenshotLaunchArgumentsIfPresent() {
+        let env = ProcessInfo.processInfo.environment
+        switch env["QB_SCREENSHOT_TAB"] {
+        case "cart": selectedTab = .cart
+        case "orders": selectedTab = .orders
+        default: break
+        }
+        if let mealId = env["QB_SCREENSHOT_DETAIL_MEAL_ID"] {
+            homePath.append(Route.detail(mealId: mealId))
         }
     }
 

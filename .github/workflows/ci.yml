@@ -39,3 +39,56 @@ jobs:
           xcodebuild -scheme QuickBites \
             -destination 'platform=iOS Simulator,name=iPhone 17' \
             test
+
+  screenshots:
+    needs: app
+    runs-on: macos-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen
+      - name: Build for Simulator
+        run: |
+          xcodebuild -scheme QuickBites \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            -derivedDataPath build \
+            build
+      - name: Boot simulator
+        run: |
+          xcrun simctl boot "iPhone 17"
+          xcrun simctl bootstatus "iPhone 17" -b
+      - name: Install app
+        run: xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/QuickBites.app
+      - name: Capture home screen
+        run: |
+          mkdir -p docs
+          SIMCTL_CHILD_QB_SCREENSHOT_TAB=home xcrun simctl launch booted dev.tempest.quickbites
+          sleep 6
+          xcrun simctl io booted screenshot docs/screenshot-home.png
+          xcrun simctl terminate booted dev.tempest.quickbites
+      - name: Capture dish detail screen
+        run: |
+          SIMCTL_CHILD_QB_SCREENSHOT_TAB=home SIMCTL_CHILD_QB_SCREENSHOT_DETAIL_MEAL_ID=52977 xcrun simctl launch booted dev.tempest.quickbites
+          sleep 6
+          xcrun simctl io booted screenshot docs/screenshot-detail.png
+          xcrun simctl terminate booted dev.tempest.quickbites
+      - name: Capture cart screen
+        run: |
+          SIMCTL_CHILD_QB_SCREENSHOT_TAB=cart xcrun simctl launch booted dev.tempest.quickbites
+          sleep 6
+          xcrun simctl io booted screenshot docs/screenshot-cart.png
+          xcrun simctl terminate booted dev.tempest.quickbites
+      - name: Capture orders screen
+        run: |
+          SIMCTL_CHILD_QB_SCREENSHOT_TAB=orders xcrun simctl launch booted dev.tempest.quickbites
+          sleep 6
+          xcrun simctl io booted screenshot docs/screenshot-orders.png
+          xcrun simctl terminate booted dev.tempest.quickbites
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: docs/*.png
