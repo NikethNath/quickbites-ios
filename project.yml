@@ -30,3 +30,30 @@ targets:
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         TARGETED_DEVICE_FAMILY: "1"
+
+  QuickBitesTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - App/Tests/QuickBitesTests
+    dependencies:
+      - target: QuickBites
+      - package: QuickBitesCore
+    settings:
+      base:
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  QuickBites:
+    build:
+      targets:
+        QuickBites: all
+        QuickBitesTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - QuickBitesTests
