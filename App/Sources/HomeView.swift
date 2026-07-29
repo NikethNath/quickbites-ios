@@ -84,6 +84,7 @@ private struct CategoryCell: View {
             .frame(height: 100)
             .frame(maxWidth: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 12))
+            .accessibilityHidden(true)
 
             Text(category.name)
                 .font(.subheadline)
@@ -91,6 +92,5 @@ private struct CategoryCell: View {
                 .foregroundStyle(.primary)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(category.name)
     }
 }

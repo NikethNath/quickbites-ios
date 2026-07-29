@@ -51,6 +51,7 @@ struct DetailView: View {
                     .frame(height: 220)
                     .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(meal.name)
@@ -130,7 +131,7 @@ struct DetailView: View {
                     .font(.subheadline)
                 Spacer()
                 Stepper(
-                    "Quantity",
+                    "Quantity of \(meal.name)",
                     value: Binding(
                         get: { viewModel.qtyInCart },
                         set: { newValue in

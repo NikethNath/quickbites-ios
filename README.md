@@ -74,7 +74,7 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 - [x] Home + Browse + Search
 - [x] Dish detail
 - [x] Cart, mock checkout, order history
-- [ ] Polish: dark mode, empty/error states, accessibility labels
+- [x] Polish: dark mode, empty/error states, accessibility labels
 - [ ] Simulator screenshots in CI + final README
 
 ## Building

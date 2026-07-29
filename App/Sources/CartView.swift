@@ -107,6 +107,7 @@ private struct CartRow: View {
             }
             .frame(width: 48, height: 48)
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.name)
@@ -118,7 +119,7 @@ private struct CartRow: View {
             Spacer()
 
             Stepper(
-                "Quantity",
+                "Quantity of \(item.name)",
                 value: Binding(get: { item.qty }, set: onQtyChange),
                 in: 0...20
             )
