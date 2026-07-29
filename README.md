@@ -12,8 +12,8 @@ runners (project generated with XcodeGen, simulator driven with `simctl`).
 Same approach I used to ship the iOS build of
 [Aim Ranked](https://github.com/NikethNath/perfect_mobile_aim_trainer).
 
-> **Status: in active development.** This README is the spec I'm building
-> against; the roadmap tracks what's landed.
+> **Status: Built.** Every claim in this README is true of the code as it
+> stands — see the roadmap below.
 
 ## What it does
 
@@ -56,6 +56,17 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 
 ## Screens
 
+Captured on GitHub Actions' macOS runner — iPhone 17 Simulator, live data
+from TheMealDB, no local Mac involved.
+
+| Home | Dish detail |
+|---|---|
+| ![Home](docs/screenshot-home.png) | ![Dish detail](docs/screenshot-detail.png) |
+
+| Cart | Orders |
+|---|---|
+| ![Cart](docs/screenshot-cart.png) | ![Orders](docs/screenshot-orders.png) |
+
 | Screen | Purpose |
 |---|---|
 | Home | Category grid + search |
@@ -75,7 +86,24 @@ checkout is a mock: this is an architecture showcase, not a storefront.
 - [x] Dish detail
 - [x] Cart, mock checkout, order history
 - [x] Polish: dark mode, empty/error states, accessibility labels
-- [ ] Simulator screenshots in CI + final README
+- [x] Simulator screenshots in CI + final README
+
+## Testing
+
+CI (`.github/workflows/ci.yml`) runs four jobs on every push to `master`/`dev`:
+
+| Job | Runner | What it covers |
+|---|---|---|
+| `core-linux` | `ubuntu-latest`, official `swift:6.1` container | `QuickBitesCore` unit tests (models, `MealDBClient`, `CacheStore`, both repositories) — proof the business logic is genuinely platform-independent, not just "compiles on Linux" |
+| `core-macos` | `macos-latest` | Same `QuickBitesCore` suite, natively on Darwin |
+| `app` | `macos-latest` | XcodeGen-generated project, `xcodebuild test` on iOS Simulator — SwiftUI view models against the real repositories wired to a fake transport |
+| `screenshots` | `macos-latest`, manual `workflow_dispatch` only | Builds the app, boots a simulator, launches it with `SIMCTL_CHILD_`-prefixed env vars to land on each tab/screen, captures the four PNGs above |
+
+`master` stays green after every commit — the `core-linux` job is the one
+that matters most: it's the guarantee that the offline-first architecture
+(cache, repositories, network client) has zero hidden dependency on Apple
+frameworks, verified on a plain Debian container with no Xcode anywhere
+in sight.
 
 ## Building
 
@@ -86,5 +114,5 @@ cd QuickBitesCore && swift build && swift test
 # App — macOS with Xcode (or let CI do it):
 brew install xcodegen
 xcodegen && xcodebuild -scheme QuickBites \
-  -destination 'platform=iOS Simulator,name=iPhone 16' build
+  -destination 'platform=iOS Simulator,name=iPhone 17' build
 ```
